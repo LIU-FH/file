@@ -1,65 +1,27 @@
 <template>
-    <Poptip title="Title" placement="bottom-end">
-        <Button shape="circle" icon="ios-cloud-upload"></Button>
-        <List slot="content">
-            <ListItem>
-                <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
-                              title="This is title" description="This is description, this is description."/>
-            </ListItem>
-            <ListItem>
-                <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
-                              title="This is title" description="This is description, this is description."/>
-            </ListItem>
-            <ListItem>
-                <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
-                              title="This is title" description="This is description, this is description."/>
-                <template slot="action">
-                    <li>
-                        <a href="">Edit</a>
-                    </li>
-                    <li>
-                        <a href="">More</a>
-                    </li>
-                </template>
-            </ListItem>
-            <ListItem>
-                <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
-                              title="This is title" description="This is description, this is description."/>
-                <template slot="action">
-                    <li>
-                        <a href="">Edit</a>
-                    </li>
-                    <li>
-                        <a href="">More</a>
-                    </li>
-                </template>
-            </ListItem>
-        </List>
+    <Poptip title="上传任务" placement="bottom-end">
+        <Tooltip content="上传任务" placement="bottom">
+            <Button shape="circle" icon="ios-cloud-upload"></Button>
+        </Tooltip>
+        <div slot="content" style="width: 350px">
+            <List v-if="fileUploadData.length > 0">
+                <ListItem v-for="(item,index) in fileUploadData" :key="index">
+                    <ListItemMeta :title="item.name" :description="item.size"/>
+                </ListItem>
+            </List>
+            <div v-else class="w-full flex items-center justify-center h-32">暂无上传任务</div>
+        </div>
     </Poptip>
 </template>
 
 <script>
-    import {mapActions} from "vuex";
-    import md5 from 'crypto-js/md5';
-    import localforage from 'localforage';
+    import {mapGetters} from "vuex";
 
     export default {
         name: "uploadJob",
-        methods: {
-            ...mapActions(["fileUpload"]),
-            uploadFile(e) {
-                let file = e.target.files[0];
-                let fileInfo = {
-                    name: file.name,
-                    type: "file",
-                    size: file.size,
-                    status: 0,
-                    key: "FileUpload-" + md5(file.name)
-                }
-                localforage.setItem(fileInfo.key, file).then(() => {
-                    this.fileUpload(fileInfo)
-                })
-            },
+        methods: {},
+        computed: {
+            ...mapGetters(['fileUploadData']),
         }
     };
 </script>

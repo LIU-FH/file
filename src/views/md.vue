@@ -38,14 +38,6 @@
             $route: function () {
                 this.loadData()
             },
-            mdDraftData: function () {
-                if (this.mdDraftData && (this.mdDraftData.name || this.mdDraftData.path)) {
-                    this.fromData = {
-                        name: this.mdDraftData.name,
-                        path: this.mdDraftData.path
-                    }
-                }
-            },
         },
         mounted() {
             this.loadData()
@@ -61,6 +53,11 @@
                     }).then((res) => {
                         this.content = res.data
                     })
+                }else if(this.mdDraftData && (this.mdDraftData.name || this.mdDraftData.content)){
+                    this.fromData = {
+                        name: this.mdDraftData.name,
+                    }
+                    this.content = this.mdDraftData.content
                 }
             },
             handleConfirm() {

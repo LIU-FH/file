@@ -41,6 +41,7 @@ module.exports = {
                 "https://unpkg.com/axios@0.19.2/dist/axios.min.js",
                 "https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js",
                 "https://unpkg.com/vue-lazyload/vue-lazyload.js",
+                "https://unpkg.com/turndown/dist/turndown.js",
             ]
         } : {};
         config.plugin("html").tap(args => {

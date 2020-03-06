@@ -1,6 +1,8 @@
 <template>
     <Poptip title="文件提交" placement="bottom-end">
-        <Button shape="circle" icon="md-git-commit"></Button>
+        <Tooltip content="文件提交" placement="bottom">
+            <Button shape="circle" icon="md-git-commit"></Button>
+        </Tooltip>
         <div style="width: 450px;" slot="content">
             <div class="h-20 mt-3 flex items-center justify-center">
                 <Button @click="filePush" size="large" type="primary">Primary</Button>

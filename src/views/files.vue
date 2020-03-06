@@ -9,9 +9,7 @@
                         <div class="flex-none">
                             <Icon @click="toEdit(item)" v-if="item.type === 'md'"
                                   type="ios-create ml-2 cursor-pointer"/>
-                            <Icon v-clipboard:copy="item.path"
-                                  v-clipboard:success="onCopy"
-                                  v-clipboard:error="onError" class="ml-2 cursor-pointer" type="ios-copy"/>
+                            <Icon @click="doCopy(item.path)" class="ml-2 cursor-pointer" type="ios-copy"/>
                         </div>
                     </div>
                 </div>
@@ -51,18 +49,6 @@
                 }
                 this.fileList({params: params})
             },
-            onCopy: function (e) {
-                this.$Notice.success({
-                    title: '提示消息',
-                    desc: "复制成功"
-                });
-            },
-            onError: function (e) {
-                this.$Notice.error({
-                    title: '提示消息',
-                    desc: "复制失败，请手动复制"
-                });
-            },
             pic(item) {
                 if (/(md)$/.test(item.type)) {
                     return require('../assets/img/md.png')
@@ -73,7 +59,20 @@
                 }
             },
             toEdit(item) {
-                this.$router.push('/md?item='+JSON.stringify(item))
+                this.$router.push('/md?item=' + JSON.stringify(item))
+            },
+            doCopy(val) {
+                this.$copyText(val).then(() => {
+                    this.$Notice.success({
+                        title: '提示消息',
+                        desc: "复制成功"
+                    });
+                }, () => {
+                    this.$Notice.error({
+                        title: '提示消息',
+                        desc: "复制失败，请手动复制"
+                    });
+                })
             }
         },
         computed: {

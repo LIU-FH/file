@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 const Index = () => import('../views/index.vue')
 const Files = () => import('../views/files.vue')
 const Md = () => import('../views/md.vue')
+const Turndown = () => import('../views/tomd.vue')
+const Spider = () => import('../views/spider.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +18,7 @@ const routes = [
                 path: '/',
                 name: 'index',
                 component: Files,
+                meta: {keepAlive: true}
             },
         ]
     },
@@ -23,6 +26,14 @@ const routes = [
         path: '/md',
         name: 'md',
         component: Md,
+    },{
+        path: '/turndown',
+        name: 'turndown',
+        component: Turndown,
+    },{
+        path: '/spider',
+        name: 'spider',
+        component: Spider,
     },
 ]
 
