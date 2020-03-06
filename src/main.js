@@ -5,6 +5,7 @@ import store from './store'
 import './assets/css/tailwind.css'
 // import ViewUI from 'view-design';
 // import 'view-design/dist/styles/iview.css';
+// Vue.use(ViewUI)
 import utils from "./utils/index";
 import VueClipboard from 'vue-clipboard2'
 import VueLazyload from 'vue-lazyload'
@@ -12,7 +13,7 @@ import VueLazyload from 'vue-lazyload'
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 Vue.prototype.$utils = utils
-// Vue.use(ViewUI)
+
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,

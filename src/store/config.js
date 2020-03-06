@@ -22,6 +22,7 @@ export default {
         title: '',
         content: ''
     },
+    editMd:{},
     showFileList: {
         mutations: function (state) {
             return state.showFileList > 0 ? state.showFileList + 1 : 1

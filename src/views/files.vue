@@ -1,14 +1,18 @@
 <template>
-    <div class="grid grid-cols-6 gap-6 py-8 px-12">
+    <div class="grid grid-cols-6 gap-6 py-8 px-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
         <div v-for="(item,index) in fileListData.data" :key="index">
             <Card class="files-item">
                 <div class="h-48 w-full flex items-end">
                     <img class="w-full h-full absolute rounded-sm object-cover" v-lazy="pic(item)">
                     <div class="bg-black text-white rounded-sm h-10 z-10 w-full flex items-center justify-between px-2">
-                        <p class="text-cut">{{item.name}} </p>
-                        <Icon v-clipboard:copy="item.path"
-                              v-clipboard:success="onCopy"
-                              v-clipboard:error="onError" class=" ml-2 cursor-pointer" type="ios-copy"/>
+                        <p class="text-cut flex-1">{{item.name}} </p>
+                        <div class="flex-none">
+                            <Icon @click="toEdit(item)" v-if="item.type === 'md'"
+                                  type="ios-create ml-2 cursor-pointer"/>
+                            <Icon v-clipboard:copy="item.path"
+                                  v-clipboard:success="onCopy"
+                                  v-clipboard:error="onError" class="ml-2 cursor-pointer" type="ios-copy"/>
+                        </div>
                     </div>
                 </div>
             </Card>
@@ -34,7 +38,7 @@
             this.loadData()
         },
         methods: {
-            ...mapActions(["fileList"]),
+            ...mapActions(["fileList", 'editMd']),
             loadData() {
                 let params = {
                     sort: '-updated_at',
@@ -67,6 +71,9 @@
                 } else if (/(mp4)$/.test(item.type)) {
                     return require('../assets/img/video.png')
                 }
+            },
+            toEdit(item) {
+                this.$router.push('/md?item='+JSON.stringify(item))
             }
         },
         computed: {

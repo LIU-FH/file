@@ -5,12 +5,12 @@
                 v-model="showModal"
                 @on-ok="handleConfirm"
                 class-name="vertical-center-modal">
-            <Input v-model="fromData.title" placeholder="请输入标题"/>
+            <Input v-model="fromData.name" placeholder="请输入标题"/>
         </Modal>
         <div class="absolute top-0 right-0 pr-3 pt-2" style="z-index: 2">
             <Button type="primary" @click="showModal = true">保存</Button>
         </div>
-        <mavon-editor id="editor" class="h-screen mdEditor" v-model="fromData.content"/>
+        <mavon-editor id="editor" class="h-screen mdEditor" v-model="content"/>
     </div>
 </template>
 
@@ -28,22 +28,24 @@
         data: () => ({
             showModal: false,
             fromData: {
-                title: '',
-                content: ''
+                id: 0,
+                name: '',
+                path: ''
             },
+            content:''
         }),
         watch: {
             $route: function () {
                 this.loadData()
             },
             mdDraftData: function () {
-                if (this.mdDraftData && (this.mdDraftData.title || this.mdDraftData.content)) {
+                if (this.mdDraftData && (this.mdDraftData.name || this.mdDraftData.path)) {
                     this.fromData = {
-                        title: this.mdDraftData.title,
-                        content: this.mdDraftData.content
+                        name: this.mdDraftData.name,
+                        path: this.mdDraftData.path
                     }
                 }
-            }
+            },
         },
         mounted() {
             this.loadData()
@@ -51,27 +53,26 @@
         methods: {
             ...mapActions(["mdDraft", "fileUpload", "fileDel"]),
             loadData() {
-                if (this.$route.query.path) {
+                if (this.$route.query.item) {
+                    this.fromData = JSON.parse(this.$route.query.item)
                     axios({
                         method: "GET",
-                        url: this.$utils.getGitHunUrl(this.$route.query.path)
+                        url: this.fromData.path
                     }).then((res) => {
-                        this.fromData = {
-                            title: this.$utils.getUrlName(this.$route.query.path),
-                            content: res.data,
-                        }
+                        this.content = res.data
                     })
                 }
             },
             handleConfirm() {
                 let fileInfo = {
-                    name: this.fromData.title + ".md",
+                    id:this.fromData.id,
+                    name: this.fromData.name + ".md",
                     type: "md",
-                    size: this.fromData.content.length,
+                    size: this.content.length,
                     status: 0,
-                    key: "FileUpload-" + md5(this.fromData.title)
+                    key: "FileUpload-" + md5(this.fromData.name)
                 }
-                let blob = new Blob([this.fromData.content], {
+                let blob = new Blob([this.content], {
                     type: "text/plain"
                 });
                 localforage.setItem(fileInfo.key, blob).then(() => {
@@ -80,11 +81,11 @@
             },
         },
         computed: {
-            ...mapGetters(["mdDraftData"]),
+            ...mapGetters(["mdDraftData", "editMdData"]),
         }
     };
 </script>
 
-<style scoped >
+<style scoped>
 
 </style>

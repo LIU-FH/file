@@ -24,6 +24,14 @@
         mounted() {
             this.getPushLast()
         },
+        watch:{
+            filePushData:function () {
+                this.$Notice.success({
+                    title: '提示消息',
+                    desc: "提交任务创建成功，任务可能需要几分钟"
+                });
+            }
+        },
         methods: {
             ...mapActions(["filePush", "filePushLast"]),
             getPushLast() {
