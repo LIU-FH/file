@@ -12,7 +12,7 @@ module.exports = {
                 vuex: "Vuex",
                 axios: "axios",
                 "js-cookie": "Cookies",
-                "view-design": 'ViewUI',
+                "ViewUI": 'view-design',
                 "vue-lazyload": "VueLazyload",
             };
         }

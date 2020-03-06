@@ -1,6 +1,6 @@
 import axios from "axios";
 import localforage from 'localforage';
-// import {Notice} from 'view-design';
+import {Notice} from 'view-design';
 import _ from 'lodash'
 
 const baseURL = process.env.NODE_ENV === "production" ? "/api/v1" : "http://local.api.com/api/v1"
